@@ -6,18 +6,18 @@ function ApiMixinFactory() {
 
 ApiMixinFactory.prototype.getApiMixin = function (httpClient) {
   return {
-    getInitialState: function () {
+    getInitialState() {
       return {
         universities: [],
         value: 'Russian Federation',
       };
     },
-    componentWillMount: function () {
+    componentDidMount() {
       this.apiClient = httpClient;
       this.search();
     },
 
-    componentDidUpdate: function (prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState) {
       if (prevState.value !== this.state.value) {
         this.search();
       }
@@ -25,7 +25,7 @@ ApiMixinFactory.prototype.getApiMixin = function (httpClient) {
     search() {
       const value = this.state.value;
       this.apiClient({
-        url: 'http://universities.hipolabs.com/search?country=${value}',
+        url: `http://universities.hipolabs.com/search?country=${value}`,
         method: 'GET',
       })
         .done((res) => this.setTable(res))

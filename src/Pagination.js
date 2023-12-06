@@ -28,7 +28,7 @@ class Pagination extends React.Component {
         {pageNumbers.map((number) => (
           <button
             key={number}
-            onClick={function () {
+            onClick={() => {
               this.handleClick(number);
             }}
             className={number === currentPage ? 'active' : ''}

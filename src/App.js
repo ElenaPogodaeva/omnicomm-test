@@ -6,14 +6,15 @@ import tableMixin from './mixins/tableMixin';
 import { paginationMixin } from './mixins/paginationMixin';
 import Pagination from './Pagination';
 
-const apiMixin = ApiMixinFactory().getApiMixin($.ajax);
+const apiMixin = new ApiMixinFactory().getApiMixin($.ajax);
 var App = createReactClass({
   mixins: [tableMixin, paginationMixin, apiMixin],
-  render: function () {
+  render() {
     var self = this;
     var start = this.state.itemsPerPage * (this.state.activePage - 1);
-    var end = start * this.state.itemsPerPage;
-    var universities = this.state.universities.slice(start, start * this.state.itemsPerPage);
+    var end = start + this.state.itemsPerPage;
+    console.log(end);
+    var universities = this.state.universities.slice(start, end);
     var table = self.renderTable(universities);
 
     return (
@@ -30,7 +31,7 @@ var App = createReactClass({
         <Pagination
           itemsPerPage={10}
           totalItems={this.state.universities.length}
-          onPageChange={() => self.handleClick()}
+          onPageChange={(pageNumber) => self.handleClick(pageNumber)}
         />
         <div>{this.state.color}</div>
       </div>
