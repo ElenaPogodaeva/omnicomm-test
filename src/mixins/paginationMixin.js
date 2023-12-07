@@ -13,4 +13,4 @@ var paginationMixin = {
   },
 };
 
-export { paginationMixin };
+export default paginationMixin;

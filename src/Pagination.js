@@ -1,23 +1,13 @@
 import React from 'react';
 
 class Pagination extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentPage: 1,
-    };
-  }
-
   handleClick(pageNumber) {
-    this.setState({
-      currentPage: pageNumber,
-    });
-    this.props.onPageChange(pageNumber);
+    const { onPageChange } = this.props;
+    onPageChange(pageNumber);
   }
 
   render() {
-    const { currentPage } = this.state;
-    const { itemsPerPage, totalItems } = this.props;
+    const { itemsPerPage, totalItems, activePage } = this.props;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -31,7 +21,8 @@ class Pagination extends React.Component {
             onClick={() => {
               this.handleClick(number);
             }}
-            className={number === currentPage ? 'active' : ''}
+            type="button"
+            className={number === activePage ? 'active' : ''}
           >
             {number}
           </button>

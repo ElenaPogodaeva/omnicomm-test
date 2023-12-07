@@ -1,39 +1,34 @@
 import React from 'react';
 import $ from 'jquery';
 import createReactClass from 'create-react-class';
-import { ApiMixinFactory } from './mixins/apiMixin';
+import ApiMixinFactory from './mixins/apiMixin';
 import tableMixin from './mixins/tableMixin';
-import { paginationMixin } from './mixins/paginationMixin';
 import Pagination from './Pagination';
 
 const apiMixin = new ApiMixinFactory().getApiMixin($.ajax);
-var App = createReactClass({
-  mixins: [tableMixin, paginationMixin, apiMixin],
+const App = createReactClass({
+  mixins: [tableMixin, apiMixin],
+
   render() {
-    var self = this;
-    var start = this.state.itemsPerPage * (this.state.activePage - 1);
-    var end = start + this.state.itemsPerPage;
-    console.log(end);
-    var universities = this.state.universities.slice(start, end);
-    var table = self.renderTable(universities);
+    const self = this;
+    const { universities, itemsPerPage, activePage, value } = this.state;
+    const start = itemsPerPage * (activePage - 1);
+    const end = start + itemsPerPage;
+    const currentUniversities = universities.slice(start, end);
+    const table = self.renderTable(currentUniversities);
 
     return (
       <div>
-        <label htmlFor="#search">Поиск</label>
+        <label htmlFor="search">Поиск</label>
         <br />
-        <input
-          id="search"
-          onChange={this.handleSearchChange}
-          type="string"
-          value={this.state.value}
-        />
+        <input id="search" onChange={this.handleSearchChange} type="text" value={value} />
         <div>{table}</div>
         <Pagination
-          itemsPerPage={10}
-          totalItems={this.state.universities.length}
+          itemsPerPage={itemsPerPage}
+          totalItems={universities.length}
+          activePage={activePage}
           onPageChange={(pageNumber) => self.handleClick(pageNumber)}
         />
-        <div>{this.state.color}</div>
       </div>
     );
   },
