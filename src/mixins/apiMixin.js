@@ -16,11 +16,6 @@ class ApiMixinFactory {
         this.apiClient = httpClient;
         this.search();
       },
-      componentDidUpdate(prevProps, prevState) {
-        if (prevState.value !== this.state.value) {
-          this.search();
-        }
-      },
       search() {
         const value = this.state.value;
         this.apiClient({
@@ -34,6 +29,10 @@ class ApiMixinFactory {
         this.setState({
           value: event.target.value,
         });
+      },
+      handleSubmit(event) {
+        event.preventDefault();
+        this.search();
       },
     };
   }

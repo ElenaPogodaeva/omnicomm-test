@@ -19,9 +19,10 @@ const App = createReactClass({
 
     return (
       <div>
-        <label htmlFor="search">Поиск</label>
-        <br />
-        <input id="search" onChange={this.handleSearchChange} type="text" value={value} />
+        <form onSubmit={this.handleSubmit}>
+          <input id="search" onChange={this.handleSearchChange} type="text" value={value} />
+          <button type="submit">Поиск</button>
+        </form>
         <div>{table}</div>
         <Pagination
           itemsPerPage={itemsPerPage}
